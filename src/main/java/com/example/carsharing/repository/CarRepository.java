@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CarRepository extends JpaRepository<Car,Integer> {
-    public List<Car> findByIsRentedTrue();
-    public List<Car> findByIsRentedFalse();
+    List<Car> findByIsRentedTrue();
+    List<Car> findByIsRentedFalse();
     @Transactional
     @Modifying
     @Query("update Car set isRented = true, renter.id = :renter_id, " +
             "startTime = now(), endTime = :endTime where id = :id")
 
-    public void bookCar(Integer id, Integer renter_id, LocalDateTime endTime);
+    void bookCar(Integer id, Integer renter_id, LocalDateTime endTime);
 }

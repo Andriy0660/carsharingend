@@ -1,8 +1,7 @@
 package com.example.carsharing.schedule;
 
 import com.example.carsharing.entity.Car;
-import com.example.carsharing.repository.CarRepository;
-import com.example.carsharing.repository.UserRepository;
+import com.example.carsharing.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -10,18 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EndTimeSchedule {
     @Autowired
-    private CarRepository carRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private CarService carService;
     @Transactional
     @Scheduled(fixedRate = 60000) // перевіряти кожну хвилину
     public void checkRentedCars() {
-        List<Car> rentedCars = carRepository.findByIsRentedTrue();
+        List<Car> rentedCars = carService.findByIsRentedTrue();
 
         for (Car car : rentedCars) {
             LocalDateTime endTime = car.getEndTime();
@@ -32,7 +28,7 @@ public class EndTimeSchedule {
                 car.setRenter(null);
                 car.setStartTime(null);
                 car.setEndTime(null);
-                carRepository.save(car);
+                carService.save(car);
             }
         }
     }

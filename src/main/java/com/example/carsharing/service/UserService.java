@@ -11,7 +11,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    Optional<User> findByEmail(String email){
+    public Optional<User> findByEmail(String email){
         return userRepository.findByEmail(email);
     }
 }
