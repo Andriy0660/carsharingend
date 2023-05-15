@@ -6,6 +6,7 @@ import com.example.carsharing.entity.User;
 import com.example.carsharing.requests.AddCarRequest;
 import com.example.carsharing.service.CarService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,7 +53,7 @@ public class MainController {
     public ResponseEntity<?> bookCar(@RequestHeader("Authorization") String jwt,
                                      final User user,
                                      @RequestParam("id") Integer id,
-                                     @RequestParam("endTime")LocalDateTime endTime){
+                                     @RequestParam("endTime")@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime endTime){
 
         carService.bookCar(id,user.getId(),endTime);
         return ResponseEntity.ok().build();
