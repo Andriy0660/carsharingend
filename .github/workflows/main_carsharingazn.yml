@@ -1,4 +1,4 @@
-name: Build and deploy WAR app to Azure Web App - carsharingazn
+name: main_carsharingazn
 
 on:
   push:
@@ -20,7 +20,11 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
-
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: java-app
+          path: '${{ github.workspace }}/target/*.war'
  
 
   deploy:
