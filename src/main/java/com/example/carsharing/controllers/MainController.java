@@ -53,9 +53,10 @@ public class MainController {
     public ResponseEntity<?> bookCar(@RequestHeader("Authorization") String jwt,
                                      final User user,
                                      @RequestParam("id") Integer id,
-                                     @RequestParam("endTime")@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime endTime){
+                                     @RequestParam("endTime")@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime endTime,
+                                     @RequestParam("startTime")@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime startTime){
 
-        carService.bookCar(id,user.getId(),endTime);
+        carService.bookCar(id,user.getId(),startTime,endTime);
         return ResponseEntity.ok().build();
 
     }

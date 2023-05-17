@@ -20,8 +20,8 @@ public class CarService {
         return carRepository.findByIsRentedFalse();
     }
 
-    public void bookCar(Integer id, Integer renterId, LocalDateTime endTime){
-        carRepository.bookCar(id, renterId,endTime);
+    public void bookCar(Integer id, Integer renterId, LocalDateTime startTime,LocalDateTime endTime){
+        carRepository.bookCar(id, renterId,startTime,endTime);
     };
     public void save(Car car){
         carRepository.save(car);

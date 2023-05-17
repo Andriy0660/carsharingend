@@ -22,8 +22,8 @@ public interface CarRepository extends JpaRepository<Car,Integer> {
 @Transactional
 @Modifying
 @Query("UPDATE Car c SET c.isRented = true, c.renter.id = :renter_id, " +
-        "c.startTime = current_timestamp(), c.endTime = :endTime WHERE c.id = :id")
-void bookCar(@Param("id") Integer id, @Param("renter_id") Integer renterId, @Param("endTime") LocalDateTime endTime);
+        "c.startTime = :startTime, c.endTime = :endTime WHERE c.id = :id")
+void bookCar(@Param("id") Integer id, @Param("renter_id") Integer renterId, @Param("endTime") LocalDateTime startTime,@Param("endTime") LocalDateTime endTime);
 
 
 }
