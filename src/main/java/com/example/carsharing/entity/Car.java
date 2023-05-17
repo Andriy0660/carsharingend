@@ -22,15 +22,11 @@ public class Car {
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     User owner;
-//    @Column(name = "owner_id")
-//    @JsonIgnore
-//    Integer ownerId;
+
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinColumn(name = "renter_id")
     User renter;
-//    @Column(name = "renter_id")
-//    @JsonIgnore
-//    Integer renterId;
+
     @Column(name = "rented")
     Boolean isRented;
     @Column(name = "start_time")
