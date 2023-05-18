@@ -9,21 +9,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface CarRepository extends JpaRepository<Car,Integer> {
     List<Car> findByIsRentedTrue();
     List<Car> findByIsRentedFalse();
-//    @Transactional
-//    @Modifying
-//    @Query("update Car set isRented = true, renter.id = :renter_id, " +
-//            "startTime = now(), endTime = :endTime where id = :id")
-//
-//    void bookCar(Integer id, Integer renter_id, LocalDateTime endTime);
-@Transactional
-@Modifying
-@Query("UPDATE Car c SET c.isRented = true, c.renter.id = :renter_id, " +
-        "c.startTime = :startTime, c.endTime = :endTime WHERE c.id = :id")
-void bookCar(@Param("id") Integer id, @Param("renter_id") Integer renterId, @Param("startTime") LocalDateTime startTime,@Param("endTime") LocalDateTime endTime);
+    Optional<Car> findByIdAndIsRentedTrue(Integer id);
+    @Transactional
+    @Modifying
+    @Query("UPDATE Car c SET c.isRented = true, c.renter.id = :renter_id, " +
+            "c.startTime = :startTime, c.endTime = :endTime WHERE c.id = :id")
+    void rentCar(@Param("id") Integer id, @Param("renter_id") Integer renterId, @Param("startTime") LocalDateTime startTime,@Param("endTime") LocalDateTime endTime);
 
 
 }

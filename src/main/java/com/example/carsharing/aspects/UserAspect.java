@@ -3,6 +3,7 @@ package com.example.carsharing.aspects;
 import com.example.carsharing.config.JwtService;
 import com.example.carsharing.entity.User;
 import com.example.carsharing.service.UserService;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -24,8 +25,12 @@ public class UserAspect {
 
         String jwt = (String) args[0];
         String token = jwt.substring(7);
-
-        String userEmail = jwtService.extractUsername(token);
+        String userEmail=null;
+        try {
+            userEmail = jwtService.extractUsername(token);
+        }catch (ExpiredJwtException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         try {
             User user = userService.findByEmail(userEmail).orElseThrow(() ->

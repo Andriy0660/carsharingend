@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,9 +20,12 @@ public class CarService {
     public List<Car> findByIsRentedFalse(){
         return carRepository.findByIsRentedFalse();
     }
+    public Optional<Car> findByIdAndIsRentedTrue(Integer id){
+        return carRepository.findByIdAndIsRentedTrue(id);
+    }
 
-    public void bookCar(Integer id, Integer renterId, LocalDateTime startTime,LocalDateTime endTime){
-        carRepository.bookCar(id, renterId,startTime,endTime);
+    public void rentCar(Integer id, Integer renterId, LocalDateTime startTime, LocalDateTime endTime){
+        carRepository.rentCar(id, renterId,startTime,endTime);
     };
     public void save(Car car){
         carRepository.save(car);
