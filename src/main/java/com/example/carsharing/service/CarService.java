@@ -23,7 +23,7 @@ public class CarService {
     public Optional<Car> findByIdAndIsRentedTrue(Integer id){
         return carRepository.findByIdAndIsRentedTrue(id);
     }
-
+    public Optional<Car> findById(Integer id){return carRepository.findById(id);}
     public void rentCar(Integer id, Integer renterId, LocalDateTime startTime, LocalDateTime endTime){
         carRepository.rentCar(id, renterId,startTime,endTime);
     };

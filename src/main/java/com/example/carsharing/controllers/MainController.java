@@ -61,6 +61,9 @@ public class MainController {
         if(carService.findByIdAndIsRentedTrue(id).isPresent()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This car has already rented");
         }
+        if(!carService.findById(id).isPresent()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Car with this id does not exist");
+        }
         carService.rentCar(id,user.getId(),startTime,endTime);
         return ResponseEntity.ok().build();
     }
