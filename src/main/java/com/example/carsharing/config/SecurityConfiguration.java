@@ -1,6 +1,6 @@
 package com.example.carsharing.config;
 
-import com.example.carsharing.filters.JwtAuthenticationFilter;
+import com.example.carsharing.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

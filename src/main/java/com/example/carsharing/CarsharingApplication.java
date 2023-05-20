@@ -9,16 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @EnableScheduling
-@RestController
-@RequestMapping("/nothing")
-public class CarsharingApplication {
-    @GetMapping("/nothing")
-    public String nth(){
-        return "nothing";
-    }
 
+public class CarsharingApplication {
     public static void main(String[] args) {
         SpringApplication.run(CarsharingApplication.class, args);
     }
-
 }
