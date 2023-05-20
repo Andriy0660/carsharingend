@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RestController
-@RequestMapping("/carsharing/cars")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @Validated
 public class AuthenticateController {

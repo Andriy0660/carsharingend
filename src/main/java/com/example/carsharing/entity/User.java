@@ -1,4 +1,4 @@
-package com.example.carsharing.model;
+package com.example.carsharing.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -41,9 +41,21 @@ public class User implements UserDetails {
     @JsonIgnore
     List<Car> ownedCars;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "renter")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "renter", fetch = FetchType.EAGER)
     @JsonIgnore
     List<Car> rentedCars;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 
     @JsonIgnore
     @Override

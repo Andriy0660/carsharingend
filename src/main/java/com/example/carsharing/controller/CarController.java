@@ -2,8 +2,8 @@ package com.example.carsharing.controller;
 
 import com.example.carsharing.dto.request.AddCarRequest;
 import com.example.carsharing.mapper.CarMapper;
-import com.example.carsharing.model.Car;
-import com.example.carsharing.model.User;
+import com.example.carsharing.entity.Car;
+import com.example.carsharing.entity.User;
 import com.example.carsharing.service.CarService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class CarController {
     public ResponseEntity<List<Car>> getRentedCars() {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+        var a = user.getRentedCars();
         List<Car> rentedCars = user.getRentedCars();
         return ResponseEntity.ok(rentedCars);
     }
@@ -59,7 +59,7 @@ public class CarController {
 
         User renter = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Car car = carService.findById(id).orElseThrow();
-        User owner = car.getRenter();
+        User owner = car.getOwner();
 
         if(renter.getId() == owner.getId()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Yoy can not rent your car");
@@ -68,6 +68,7 @@ public class CarController {
         car.setRenter(renter);
         car.setStartTime(startTime);
         car.setEndTime(endTime);
+        car.setIsRented(true);
         carService.save(car);
         //carService.rentCar(id,user.getId(),startTime,endTime);
         return ResponseEntity.ok().build();

@@ -2,7 +2,7 @@ package com.example.carsharing.service;
 
 
 import com.example.carsharing.dto.response.AuthenticationResponse;
-import com.example.carsharing.model.User;
+import com.example.carsharing.entity.User;
 import com.example.carsharing.repository.UserRepository;
 import com.example.carsharing.dto.request.AuthenticationRequest;
 import com.example.carsharing.dto.request.RegisterRequest;

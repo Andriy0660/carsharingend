@@ -1,5 +1,6 @@
-package com.example.carsharing.model;
+package com.example.carsharing.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

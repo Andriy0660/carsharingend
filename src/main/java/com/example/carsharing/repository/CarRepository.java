@@ -1,6 +1,6 @@
 package com.example.carsharing.repository;
 
-import com.example.carsharing.model.Car;
+import com.example.carsharing.entity.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

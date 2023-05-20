@@ -1,7 +1,7 @@
 package com.example.carsharing.mapper;
 
 import com.example.carsharing.dto.request.AddCarRequest;
-import com.example.carsharing.model.Car;
+import com.example.carsharing.entity.Car;
 
 public class CarMapper {
     public static Car mapToAddCar(AddCarRequest carInfo) {

@@ -1,6 +1,6 @@
 package com.example.carsharing.schedule;
 
-import com.example.carsharing.model.Car;
+import com.example.carsharing.entity.Car;
 import com.example.carsharing.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
