@@ -1,10 +1,11 @@
-package com.example.carsharing.config;
+package com.example.carsharing.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,8 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private static final String SECRET_KEY="4D635166546A576E5A7234753778214125442A472D4B6150645267556B587032";
+    @Value("${secret_key}")
+    private static String SECRET_KEY;
     public String extractUsername(String token) {
         return extractClaim(token,Claims::getSubject);
     }

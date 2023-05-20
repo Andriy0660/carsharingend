@@ -1,6 +1,6 @@
 package com.example.carsharing.service;
 
-import com.example.carsharing.entity.User;
+import com.example.carsharing.model.User;
 import com.example.carsharing.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

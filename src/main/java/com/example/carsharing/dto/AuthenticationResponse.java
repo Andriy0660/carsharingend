@@ -1,4 +1,4 @@
-package com.example.carsharing.auth;
+package com.example.carsharing.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

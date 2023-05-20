@@ -1,17 +1,17 @@
-package com.example.carsharing.auth;
+package com.example.carsharing.controllers;
 
-import com.example.carsharing.repository.UserRepository;
+import com.example.carsharing.dto.AuthenticationRequest;
+import com.example.carsharing.dto.AuthenticationResponse;
+import com.example.carsharing.service.AuthenticationService;
+import com.example.carsharing.dto.RegisterRequest;
 import com.example.carsharing.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RestController
@@ -23,7 +23,7 @@ public class AuthenticationController {
     private final UserService userService;
     @PostMapping("/register")
     public void register(
-             @RequestBody @Valid RegisterRequest request
+            @Valid @RequestBody RegisterRequest request
     ){
         if(userService.findByEmail(request.getEmail()).isPresent()){
             throw new BadCredentialsException("Email already exists");

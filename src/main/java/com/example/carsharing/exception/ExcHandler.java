@@ -1,4 +1,4 @@
-package com.example.carsharing.exceptionHandlers;
+package com.example.carsharing.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

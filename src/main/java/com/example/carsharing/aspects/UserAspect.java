@@ -1,7 +1,7 @@
 package com.example.carsharing.aspects;
 
-import com.example.carsharing.config.JwtService;
-import com.example.carsharing.entity.User;
+import com.example.carsharing.service.JwtService;
+import com.example.carsharing.model.User;
 import com.example.carsharing.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;

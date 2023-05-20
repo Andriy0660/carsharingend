@@ -1,4 +1,4 @@
-package com.example.carsharing.auth;
+package com.example.carsharing.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

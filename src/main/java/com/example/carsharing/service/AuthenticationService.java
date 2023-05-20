@@ -1,9 +1,11 @@
-package com.example.carsharing.auth;
+package com.example.carsharing.service;
 
 
-import com.example.carsharing.config.JwtService;
-import com.example.carsharing.entity.User;
+import com.example.carsharing.dto.AuthenticationResponse;
+import com.example.carsharing.model.User;
 import com.example.carsharing.repository.UserRepository;
+import com.example.carsharing.dto.AuthenticationRequest;
+import com.example.carsharing.dto.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

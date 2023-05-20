@@ -1,4 +1,4 @@
-package com.example.carsharing.entity;
+package com.example.carsharing.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
