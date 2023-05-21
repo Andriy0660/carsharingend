@@ -7,6 +7,7 @@ public class CarMapper {
     public static Car mapToAddCar(AddCarRequest carInfo) {
         Car car = new Car();
         car.setId(0);
+        car.setIsRented(false);
         car.setVendor(carInfo.getVendor());
         car.setModel(carInfo.getModel());
         car.setYear(carInfo.getYear());

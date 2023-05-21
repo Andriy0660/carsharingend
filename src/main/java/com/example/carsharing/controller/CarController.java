@@ -23,15 +23,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CarController {
     private final CarService carService;
+
     @GetMapping("/available")
-    public ResponseEntity<List<Car>> getAvailableCars(){
+    public ResponseEntity<List<Car>> getAvailableCars() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         List<Car> availableCars = carService.findByIsRentedFalse();
 
         return ResponseEntity.ok(availableCars.stream().
-                filter(i->i.getOwner().getId()!=user.getId()).toList());
+                filter(i -> i.getOwner().getId() != user.getId()).toList());
     }
+
     @GetMapping("/owned")
     public ResponseEntity<List<Car>> getOwnedCars() {
 
@@ -52,25 +54,25 @@ public class CarController {
 
     @PutMapping("/rent")
     public ResponseEntity<?> rentCar(@RequestParam("id") Integer id,
-                                     @RequestParam("startTime")@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") LocalDateTime startTime,
-                                     @RequestParam("endTime")@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss")LocalDateTime endTime){
+                                     @RequestParam("startTime") @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") LocalDateTime startTime,
+                                     @RequestParam("endTime") @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") LocalDateTime endTime) {
 
         User renter = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Car> optional = carService.findById(id);
         Car car;
 
-        if(!optional.isPresent()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is no car with id "+id);
-        }else{
-            car = optional.get();
-            if(car.getIsRented()){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This car has already rented");
-            }
+        if (!optional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is no car with id " + id);
+        }
+
+        car = optional.get();
+        if (car.getIsRented()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This car has already rented");
         }
 
 
         User owner = car.getOwner();
-        if(renter.getId() == owner.getId()){
+        if (renter.getId() == owner.getId()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Yoy can not rent your car");
         }
 
@@ -84,7 +86,7 @@ public class CarController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addCar(@RequestBody @Valid AddCarRequest carInfo){
+    public ResponseEntity<?> addCar(@RequestBody @Valid AddCarRequest carInfo) {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
