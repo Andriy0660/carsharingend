@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/carsharing/cars")
@@ -58,9 +59,16 @@ public class CarController {
         }
 
         User renter = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Car car = carService.findById(id).orElseThrow();
-        User owner = car.getOwner();
+        Car car;
 
+        Optional<Car> optional = carService.findById(id);
+        if(optional.isPresent()){
+            car = optional.get();
+        }else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is no car with id "+id);
+        }
+
+        User owner = car.getOwner();
         if(renter.getId() == owner.getId()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Yoy can not rent your car");
         }
