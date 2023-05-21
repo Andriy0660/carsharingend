@@ -4,6 +4,7 @@ import com.example.carsharing.dto.request.AddCarRequest;
 import com.example.carsharing.mapper.CarMapper;
 import com.example.carsharing.entity.Car;
 import com.example.carsharing.entity.User;
+import com.example.carsharing.repository.CarRepository;
 import com.example.carsharing.service.CarService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -54,19 +55,19 @@ public class CarController {
                                      @RequestParam("startTime")@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") LocalDateTime startTime,
                                      @RequestParam("endTime")@DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss")LocalDateTime endTime){
 
-        if(carService.findByIdAndIsRentedTrue(id).isPresent()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This car has already rented");
-        }
-
         User renter = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Car> optional = carService.findById(id);
         Car car;
 
-        Optional<Car> optional = carService.findById(id);
-        if(optional.isPresent()){
-            car = optional.get();
-        }else {
+        if(!optional.isPresent()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is no car with id "+id);
+        }else{
+            car = optional.get();
+            if(car.getIsRented()){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This car has already rented");
+            }
         }
+
 
         User owner = car.getOwner();
         if(renter.getId() == owner.getId()){
@@ -91,6 +92,7 @@ public class CarController {
         car.setOwner(user);
 
         carService.save(car);
+
         return ResponseEntity.ok().build();
     }
 }

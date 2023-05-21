@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class CarService{
     private final CarRepository carRepository;
     public List<Car> findByIsRentedTrue(){
