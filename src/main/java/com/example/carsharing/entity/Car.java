@@ -1,5 +1,6 @@
 package com.example.carsharing.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -29,10 +32,15 @@ public class Car {
 
     @Column(name = "rented")
     Boolean isRented;
-    @Column(name = "start_time")
-    LocalDateTime startTime;
-    @Column(name = "end_time")
-    LocalDateTime endTime;
+//    @Column(name = "start_time")
+//    LocalDateTime startTime;
+//    @Column(name = "end_time")
+//    LocalDateTime endTime;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "car_id")
+    @JsonIgnore
+    List<Booking> bookings=new ArrayList<>();
     @Column(name = "vendor")
     String vendor;
     @Column(name = "model")

@@ -13,7 +13,7 @@
 //import java.util.List;
 //
 //@Service
-//public class EndTimeSchedule {
+//public class Delete {
 //    @Autowired
 //    private CarService carService;
 //    @Autowired
@@ -21,17 +21,13 @@
 //    @Transactional
 //    @Scheduled(fixedRate = 1000) // перевіряти кожну хвилину
 //    public void checkRentedCars() {
-//        List<Car> rentedCars = carService.findByIsRentedTrue();
+//        List<Booking> bookings = bookingRepository.findAll();
 //
-//        OUTER:
-//        for (Car car : rentedCars) {
-//            for (Booking booking : car.getBookings()) {
-//                if (booking.getStartTime().isBefore(LocalDateTime.now())&&booking.getEndTime().isAfter(LocalDateTime.now())) {
-//                    continue OUTER;
-//                }
+//        for (Booking booking : bookings) {
+//            if (booking.getEndTime().isBefore(LocalDateTime.now())) {
+//                bookingRepository.delete(booking);
 //            }
-//            car.setIsRented(false);
-//            car.setRenter(null);
+//
 //        }
 //    }
 //}
