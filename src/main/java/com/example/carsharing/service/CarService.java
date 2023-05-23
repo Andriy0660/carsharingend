@@ -1,11 +1,13 @@
 package com.example.carsharing.service;
 
+import com.example.carsharing.entity.Booking;
 import com.example.carsharing.entity.Car;
 import com.example.carsharing.repository.CarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,9 +28,15 @@ public class CarService{
     }
     public List<Car> findAll(){return carRepository.findAll();}
     public Optional<Car> findById(Integer id){return carRepository.findById(id);}
-//    public void rentCar(Integer id, Integer renterId, LocalDateTime startTime, LocalDateTime endTime){
-//        carRepository.rentCar(id, renterId,startTime,endTime);
-//    };
+    public boolean isCarAvailable(Car car, LocalDateTime startDate, LocalDateTime endDate) {
+        // Перевірити, чи немає конфліктів з іншими бронюваннями
+        for (Booking booking : car.getBookings()) {
+            if (!(endDate.isBefore(booking.getStartTime()) || startDate.isAfter(booking.getEndTime()))) {
+                return false;
+            }
+        }
+        return true;
+    }
     @Transactional
     public void save(Car car){
         carRepository.save(car);

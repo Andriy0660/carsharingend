@@ -2,6 +2,7 @@ package com.example.carsharing.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -26,9 +27,11 @@ public class Booking {
     @Column(name="renter_id")
     private Integer renterId;
 
+    @NotNull
     @Column(name="start_time")
     private LocalDateTime startTime;
 
+    @NotNull
     @Column(name="end_time")
     private LocalDateTime endTime;
 //    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
