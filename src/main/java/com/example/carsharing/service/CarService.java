@@ -39,7 +39,7 @@ public class CarService{
         return true;
     }
     @Transactional
-    public void save(Car car){
-        carRepository.save(car);
+    public Car save(Car car){
+        return carRepository.save(car);
     }
 }

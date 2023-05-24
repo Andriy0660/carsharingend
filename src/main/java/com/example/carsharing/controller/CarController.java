@@ -137,7 +137,7 @@ public class CarController {
         Car car = CarMapper.mapToAddCar(carInfo);
         car.setOwner(user);
 
-        carService.save(car);
+        car = carService.save(car);
 
         return ResponseEntity.ok(car);
     }
