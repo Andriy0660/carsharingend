@@ -1,16 +1,24 @@
 package com.example.carsharing.exception.user_exception;
 
 import com.example.carsharing.exception.user_exception.exception.UserRegistrationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @ControllerAdvice
 public class UserGlobalExceptionHandler {
+
 
     @ExceptionHandler
     public ResponseEntity<UserIncorrectData> handleException(UserRegistrationException exception) {
@@ -27,13 +35,5 @@ public class UserGlobalExceptionHandler {
     }
 
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException exception) {
-//        List<String> errors = exception.getBindingResult().getFieldErrors().stream()
-//                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-//                .collect(Collectors.toList());
-//
-//        ErrorResponse response = new ErrorResponse("Validation Failed", errors);
-//        return ResponseEntity.badRequest().body(response);
-//    }
+
 }
