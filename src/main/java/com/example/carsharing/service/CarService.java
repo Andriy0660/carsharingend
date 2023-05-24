@@ -31,7 +31,8 @@ public class CarService{
     public boolean isCarAvailable(Car car, LocalDateTime startDate, LocalDateTime endDate) {
         // Перевірити, чи немає конфліктів з іншими бронюваннями
         for (Booking booking : car.getBookings()) {
-            if (!(endDate.isBefore(booking.getStartTime()) || startDate.isAfter(booking.getEndTime()))) {
+            if ((startDate.isAfter(booking.getStartTime())&&startDate.isBefore(booking.getEndTime()))||
+                    (endDate.isAfter(booking.getStartTime()) && endDate.isBefore(booking.getEndTime()))) {
                 return false;
             }
         }

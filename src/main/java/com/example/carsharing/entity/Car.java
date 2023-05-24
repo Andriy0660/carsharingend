@@ -32,27 +32,29 @@ public class Car {
 
     @Column(name = "rented")
     Boolean isRented;
-//    @Column(name = "start_time")
-//    LocalDateTime startTime;
-//    @Column(name = "end_time")
-//    LocalDateTime endTime;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "car_id")
-    @JsonIgnore
     List<Booking> bookings=new ArrayList<>();
+
     @Column(name = "vendor")
     String vendor;
+
     @Column(name = "model")
     String model;
+
     @Column(name = "year")
     Integer year;
+
     @Column(name = "price")
     Double price;
+
     @Column(name = "color")
     String color;
+
     @Column(name = "location")
     String location;
+
     @Column(name = "description")
     String description;
 
