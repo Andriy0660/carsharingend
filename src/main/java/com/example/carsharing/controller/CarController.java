@@ -99,7 +99,7 @@ public class CarController {
         Car car = optional.get();
 
         if (!carService.isCarAvailable(car, startTime, endTime)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("This auto is not available for this period");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This auto is not available for this period");
         }
 
         User renter = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

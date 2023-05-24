@@ -7,6 +7,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.io.IOException;
+import java.util.NoSuchElementException;
+
 @AllArgsConstructor
 @RestControllerAdvice
 public class ExceptionHandler {
@@ -27,6 +31,16 @@ public class ExceptionHandler {
         String errorMessage = "Required parameter is missing: " + parameterName;
         return ExceptionBuilder.exceptionBuilder(ex,HttpStatus.BAD_REQUEST);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<?> handleMissingParameter(NoSuchElementException ex) {
+        return ExceptionBuilder.exceptionBuilder(ex,HttpStatus.BAD_REQUEST);
+    }
+    @org.springframework.web.bind.annotation.ExceptionHandler(IOException.class)
+    public ResponseEntity<?> handleMissingParameter(IOException ex) {
+        return ExceptionBuilder.exceptionBuilder(ex,HttpStatus.BAD_REQUEST);
+    }
+
 
 }
 

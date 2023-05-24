@@ -4,26 +4,26 @@ package com.example.carsharing.service;
 import com.example.carsharing.entity.ImageData;
 import com.example.carsharing.repository.ImageRepository;
 import com.example.carsharing.util.ImageUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.InvalidParameterException;
+import java.util.NoSuchElementException;
 import java.util.Optional;
-
+@RequiredArgsConstructor
 @Service
 public class ImageService {
-
-    @Autowired
-    private ImageRepository repository;
-
+    private final ImageRepository repository;
     public void uploadImage(MultipartFile file) throws IOException {
-        byte[] imagedt= ImageUtils.resizeImage(file.getBytes(),150,150);
-        ImageData imageData = repository.save(ImageData.builder()
+        repository.save(ImageData.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
-                .imageData(ImageUtils.compressImage(imagedt)).build());
-
+                .imageData(ImageUtils.compressImage(
+                        ImageUtils.resizeImage(file.getBytes(),150,150)))
+                .build());
     }
 
     public byte[] getImage(String fileName){
@@ -32,8 +32,8 @@ public class ImageService {
         return images;
     }
     public ImageData getImageData(String fileName){
-        Optional<ImageData> dbImageData = repository.findByName(fileName);
-        return dbImageData.orElseThrow();
+        return repository.findByName(fileName).orElseThrow(
+                ()->new NoSuchElementException("No images with this file name"));
     }
 
 }
