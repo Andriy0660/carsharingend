@@ -31,44 +31,43 @@ public class StartTimeSchedule {
 
         //перевірка чи незаброньовані машини треба змінювати
         List<Car> allCars = carService.findAll();
-        Car car;
-        Booking booking;
 
         OUTER:
-        for (int i =0;i<allCars.size();i++) {
-            car=allCars.get(i);
+        for (Car car:allCars) {
             List<Booking> bookings = car.getBookings();
-            for (int j=0;j<bookings.size();j++) {
-                booking=bookings.get(j);
-                LocalDateTime now = LocalDateTime.now();
+            LocalDateTime now = LocalDateTime.now();
 
-            if (!car.getIsRented()) {    //не арендовані
-                    if (booking.getEndTime().isBefore(now)) {
-                        car.getBookings().remove(booking);
-                        bookingService.deleteById(booking.getId()); // Видалити бронювання з бази даних
-                        continue;
-                    }
-                if (booking.getStartTime().isBefore(now)){ //зараз після start_date
-                    car.setIsRented(true);
-                    car.setRenter(userService.findById(booking.getRenterId()).orElseThrow());
-                    carService.save(car);
-                }
-            } else {   //арендовані
+            for (Booking booking : bookings) {
                 if (booking.getEndTime().isBefore(now)) {
                     car.getBookings().remove(booking);
                     bookingService.deleteById(booking.getId()); // Видалити бронювання з бази даних
-                        continue;
-                    }
-                    if (booking.getStartTime().isBefore(now)){ //зараз після start_date
+                }
+            }
+
+            if(car.getIsRented()) {
+                for (Booking booking : bookings) {
+                    if (booking.getStartTime().isBefore(now)) { //зараз після start_date
                         continue OUTER;
                     }
+                }
                 car.setIsRented(false);
                 car.setRenter(null);
                 carService.save(car);
             }
+            else {
+                for (Booking booking : bookings) {
+                    if (booking.getStartTime().isBefore(now)) { //зараз після start_date
+                        car.setIsRented(true);
+                        car.setRenter(userService.findById(booking.getRenterId()).orElseThrow());
+                        carService.save(car);
+                        continue OUTER;
+                    }
+                }
             }
+
         }
 
-
     }
+
 }
+
