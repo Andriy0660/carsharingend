@@ -1,7 +1,5 @@
 package com.example.carsharing.dto.request;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,11 +13,16 @@ public class RegisterRequest {
     @Email(message = "Invalid email address")
     @NotBlank(message = "Email must be not null")
     private String email;
+    @Min(6)
     @NotBlank(message = "Password must be not null")
     private String password;
+    @Min(2)
+    @Max(20)
     @NotBlank(message = "Firstname must be not null")
     private String firstname;
     @NotBlank(message = "Lastname must be not null")
+    @Min(2)
+    @Max(20)
     private String lastname;
     @Pattern(regexp = "^\\+380\\d{9}$", message = "Invalid phone number")
     @NotBlank(message = "Phone must be notnull")
