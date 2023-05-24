@@ -12,7 +12,7 @@
         <property name="hostNameInCertificate" value="*.database.windows.net" />
       </driver-properties>
     </data-source>
-    <data-source source="LOCAL" name="CarSharing@carsharing.database.windows.net" uuid="f3754fb6-23ec-4e72-aaff-ed7527ab1a28">
+    <data-source source="LOCAL" name="CarSharing@carsharing.database.windows.net" uuid="bed1c574-2025-4257-a307-aa03743bb440">
       <driver-ref>azure.ms</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
