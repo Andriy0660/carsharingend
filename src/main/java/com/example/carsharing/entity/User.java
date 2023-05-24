@@ -31,8 +31,9 @@ public class User implements UserDetails {
     @Column(name = "password")
     @JsonIgnore
     String password;
-    @Column(name = "first_name")
 
+
+    @Column(name = "first_name")
     String firstName;
     @Column(name = "last_name")
 

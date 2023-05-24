@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -35,7 +36,7 @@ public class Car {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "car_id")
-    List<Booking> bookings=new ArrayList<>();
+    List<Booking> bookings = Collections.emptyList();
 
     @Column(name = "vendor")
     String vendor;

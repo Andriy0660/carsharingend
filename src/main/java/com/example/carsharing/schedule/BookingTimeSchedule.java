@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class StartTimeSchedule {
+public class BookingTimeSchedule {
     @Autowired
     private CarService carService;
     @Autowired
@@ -31,15 +32,19 @@ public class StartTimeSchedule {
 
         //перевірка чи незаброньовані машини треба змінювати
         List<Car> allCars = carService.findAll();
+        Car car;
 
         OUTER:
-        for (Car car:allCars) {
+        for (int i=0;i<allCars.size();i++) {
+            car=allCars.get(i);
             List<Booking> bookings = car.getBookings();
             LocalDateTime now = LocalDateTime.now();
 
-            for (Booking booking : bookings) {
+            Iterator<Booking> iterator = bookings.iterator();
+            while (iterator.hasNext()) {
+                Booking booking = iterator.next();
                 if (booking.getEndTime().isBefore(now)) {
-                    car.getBookings().remove(booking);
+                    iterator.remove();
                     bookingService.deleteById(booking.getId()); // Видалити бронювання з бази даних
                 }
             }

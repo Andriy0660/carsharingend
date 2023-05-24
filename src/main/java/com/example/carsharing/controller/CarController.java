@@ -2,11 +2,9 @@ package com.example.carsharing.controller;
 
 import com.example.carsharing.dto.request.AddCarRequest;
 import com.example.carsharing.entity.Booking;
-import com.example.carsharing.mapper.CarMapper;
 import com.example.carsharing.entity.Car;
 import com.example.carsharing.entity.User;
-import com.example.carsharing.repository.BookingRepository;
-import com.example.carsharing.repository.CarRepository;
+import com.example.carsharing.mapper.CarMapper;
 import com.example.carsharing.service.BookingService;
 import com.example.carsharing.service.CarService;
 import jakarta.validation.Valid;
@@ -41,20 +39,20 @@ public class CarController {
 
     @GetMapping("/availableByTime")
     public ResponseEntity<?> getAvailableCars(@RequestParam("startTime")
-                                                      @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss")
-                                                      LocalDateTime startTime,
-                                                      @RequestParam("endTime")
-                                                      @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss")
-                                                      LocalDateTime endTime) {
+                                              @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss")
+                                              LocalDateTime startTime,
+                                              @RequestParam("endTime")
+                                              @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss")
+                                              LocalDateTime endTime) {
 
-        if(startTime.isAfter(endTime)){
+        if (startTime.isAfter(endTime)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Start time must be before end time");
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         List<Car> availableCars = carService.findAll().stream().
-                filter(i->carService.isCarAvailable(i,startTime,endTime)).collect(Collectors.toList());
+                filter(i -> carService.isCarAvailable(i, startTime, endTime)).collect(Collectors.toList());
 
         return ResponseEntity.ok(availableCars.stream().
                 filter(i -> i.getOwner().getId() != user.getId()).toList());
@@ -82,7 +80,7 @@ public class CarController {
                                      @RequestParam("startTime") @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") LocalDateTime startTime,
                                      @RequestParam("endTime") @DateTimeFormat(pattern = "yyyy-MM-dd-HH:mm:ss") LocalDateTime endTime) {
 
-        if(startTime.isAfter(endTime)){
+        if (startTime.isAfter(endTime)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Start time must be before end time");
         }
 
@@ -105,17 +103,16 @@ public class CarController {
         if (!carService.isCarAvailable(car, startTime, endTime)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Цей автомобіль не доступний на обрані дати.");
         }
-        if(startTime.isBefore(LocalDateTime.now())){
+        if (startTime.isBefore(LocalDateTime.now())) {
             startTime = LocalDateTime.now();
         }
 
-        Booking booking = new Booking(0,car.getId(),renter.getId(),startTime,endTime);
+        Booking booking = new Booking(0, car.getId(), renter.getId(), startTime, endTime);
 
         bookingService.save(booking);
 
         return ResponseEntity.ok().build();
     }
-
 
 
     @PostMapping("/add")
