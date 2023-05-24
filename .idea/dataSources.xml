@@ -12,5 +12,12 @@
         <property name="hostNameInCertificate" value="*.database.windows.net" />
       </driver-properties>
     </data-source>
+    <data-source source="LOCAL" name="CarSharing@carsharing.database.windows.net" uuid="f3754fb6-23ec-4e72-aaff-ed7527ab1a28">
+      <driver-ref>azure.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://carsharing.database.windows.net:1433;database=CarSharing;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

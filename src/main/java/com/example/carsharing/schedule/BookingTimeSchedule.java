@@ -63,7 +63,7 @@ public class BookingTimeSchedule {
                 for (Booking booking : bookings) {
                     if (booking.getStartTime().isBefore(now)) { //зараз після start_date
                         car.setIsRented(true);
-                        car.setRenter(userService.findById(booking.getRenterId()).orElseThrow());
+                        car.setRenter(userService.findUserById(booking.getRenterId()));
                         carService.save(car);
                         continue OUTER;
                     }

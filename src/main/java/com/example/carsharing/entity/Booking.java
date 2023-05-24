@@ -17,15 +17,15 @@ public class Booking {
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private Integer id;
+    private Long id;
 
     @JsonIgnore
     @Column(name="car_id")
-    private Integer carId;
+    private Long carId;
 
     @JsonIgnore
     @Column(name="renter_id")
-    private Integer renterId;
+    private Long renterId;
 
     @NotNull
     @Column(name="start_time")
@@ -35,7 +35,7 @@ public class Booking {
     @Column(name="end_time")
     private LocalDateTime endTime;
 
-    public Booking(Integer carId, Integer renterId, LocalDateTime startTime, LocalDateTime endTime) {
+    public Booking(Long carId, Long renterId, LocalDateTime startTime, LocalDateTime endTime) {
         this.carId = carId;
         this.renterId = renterId;
         this.startTime = startTime;

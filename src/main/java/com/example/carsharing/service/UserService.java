@@ -1,22 +1,37 @@
 package com.example.carsharing.service;
 
+
 import com.example.carsharing.entity.User;
 import com.example.carsharing.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserService {
-    private final UserRepository userRepository;
-    public Optional<User> findByEmail(String email){
-        return userRepository.findByEmail(email);
+    private UserRepository repository;
+    public User findUserByEmail(String email){
+        Optional<User> optionalUser = repository.findByEmail(email);
+        if(optionalUser.isEmpty()){
+            throw new UsernameNotFoundException("User with this email is not found");
+        }
+        return optionalUser.get();
     }
-    public Optional<User> findById(Integer id){
-        return userRepository.findById(id);
+    public User findUserById(Long id){
+        Optional<User> optionalUser = repository.findById(id);
+        if(optionalUser.isEmpty()){
+            throw new UsernameNotFoundException("User with this id is not found");
+        }
+        return optionalUser.get();
     }
-    public void save(User user){userRepository.save(user);}
+    public void delete(User user){
+        repository.delete(user);
+    }
+    public void save(User user) {
+        repository.save(user);
+    }
+
 }

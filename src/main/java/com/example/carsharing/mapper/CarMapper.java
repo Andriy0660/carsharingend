@@ -6,7 +6,7 @@ import com.example.carsharing.entity.Car;
 public class CarMapper {
     public static Car mapToAddCar(AddCarRequest carInfo) {
         Car car = new Car();
-        car.setId(0);
+        car.setId(0L);
         car.setIsRented(false);
         car.setVendor(carInfo.getVendor());
         car.setModel(carInfo.getModel());

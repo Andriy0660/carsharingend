@@ -1,8 +1,6 @@
 package com.example.carsharing.mapper;
 
-import com.example.carsharing.dto.request.AddCarRequest;
 import com.example.carsharing.dto.response.UserProfile;
-import com.example.carsharing.entity.Car;
 import com.example.carsharing.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -13,8 +11,8 @@ public class UserProfileMapper {
         UserProfile userProfile = new UserProfile();
         userProfile.setEmail(user.getEmail());
         userProfile.setPhone(user.getPhone());
-        userProfile.setFirstName(user.getFirstName());
-        userProfile.setLastName(user.getLastName());
+        userProfile.setFirstName(user.getFirstname());
+        userProfile.setLastName(user.getLastname());
         userProfile.setImageURL(imageUrl+
                 user.getImageData().getName());
         return userProfile;

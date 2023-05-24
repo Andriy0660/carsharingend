@@ -13,15 +13,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterRequest {
     @Email(message = "Invalid email address")
-    @NotBlank(message = "Email is null")
+    @NotBlank(message = "Email must be not null")
     private String email;
-    @NotBlank(message = "Password is null")
+    @NotBlank(message = "Password must be not null")
     private String password;
-    @NotBlank(message = "First name is null")
-    private String firstName;
-    @NotBlank(message = "Last name is null")
-    private String lastName;
+    @NotBlank(message = "Firstname must be not null")
+    private String firstname;
+    @NotBlank(message = "Lastname must be not null")
+    private String lastname;
     @Pattern(regexp = "^\\+380\\d{9}$", message = "Invalid phone number")
-    @NotBlank(message = "phone is null")
+    @NotBlank(message = "Phone must be notnull")
     private String phone;
 }

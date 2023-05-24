@@ -23,11 +23,11 @@ public class CarService{
     public List<Car> findByIsRentedFalse(){
         return carRepository.findByIsRentedFalse();
     }
-    public Optional<Car> findByIdAndIsRentedTrue(Integer id){
+    public Optional<Car> findByIdAndIsRentedTrue(Long id){
         return carRepository.findByIdAndIsRentedTrue(id);
     }
     public List<Car> findAll(){return carRepository.findAll();}
-    public Optional<Car> findById(Integer id){return carRepository.findById(id);}
+    public Optional<Car> findById(Long id){return carRepository.findById(id);}
     public boolean isCarAvailable(Car car, LocalDateTime startDate, LocalDateTime endDate) {
         // Перевірити, чи немає конфліктів з іншими бронюваннями
         for (Booking booking : car.getBookings()) {

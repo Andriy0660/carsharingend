@@ -8,6 +8,7 @@ import com.example.carsharing.mapper.CarMapper;
 import com.example.carsharing.service.BookingService;
 import com.example.carsharing.service.CarService;
 import com.example.carsharing.service.ImageService;
+import com.example.carsharing.service.UserDetailsImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -33,8 +33,9 @@ public class CarController {
 
     @GetMapping("/available")
     public ResponseEntity<List<Car>> getAvailableCars() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        User user = userDetails.getUser();
         List<Car> availableCars = carService.findAll();
 
         return ResponseEntity.ok(availableCars.stream().
@@ -53,7 +54,9 @@ public class CarController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Start time must be before end time");
         }
 
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        User user = userDetails.getUser();
 
         List<Car> availableCars = carService.findAll().stream().
                 filter(i -> carService.isCarAvailable(i, startTime, endTime)).collect(Collectors.toList());
@@ -65,7 +68,9 @@ public class CarController {
     @GetMapping("/owned")
     public ResponseEntity<List<Car>> getOwnedCars() {
 
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        User user = userDetails.getUser();
 
         List<Car> ownedCars = user.getOwnedCars();
         return ResponseEntity.ok(ownedCars);
@@ -74,13 +79,15 @@ public class CarController {
     @GetMapping("/rented")
     public ResponseEntity<List<Car>> getRentedCars() {
 
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        User user = userDetails.getUser();
         List<Car> rentedCars = user.getRentedCars();
         return ResponseEntity.ok(rentedCars);
     }
 
     @PutMapping("/rent")
-    public ResponseEntity<?> rentCar(@RequestParam("id") Integer id,
+    public ResponseEntity<?> rentCar(@RequestParam("id") Long id,
                                      @RequestParam("startTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime startTime,
                                      @RequestParam("endTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime endTime) {
 
@@ -102,7 +109,9 @@ public class CarController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This auto is not available for this period");
         }
 
-        User renter = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        User renter = userDetails.getUser();
 
         User owner = car.getOwner();
 
@@ -121,7 +130,9 @@ public class CarController {
     @PostMapping("/add")
     public ResponseEntity<?> addCar(@RequestBody @Valid AddCarRequest carInfo) throws IOException {
 
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        User user = userDetails.getUser();
 
         Car car = CarMapper.mapToAddCar(carInfo);
         car.setOwner(user);

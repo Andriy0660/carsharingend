@@ -13,5 +13,5 @@ public class AuthenticationRequest {
     @NotBlank
     private String email;
     @NotBlank
-    String password;
+    private String password;
 }
