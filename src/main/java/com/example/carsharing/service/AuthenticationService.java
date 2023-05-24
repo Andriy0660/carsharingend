@@ -75,10 +75,9 @@ public class AuthenticationService {
 
         emailService.saveConfirmationToken(emailConfirmationToken);
 
-//        String link = "https://spring-carsharing-demo.azurewebsites.net/auth" +
-//                "/confirmRegistration?token=" + token;
-        String link = "http://localhost:8080/auth" +
+        String link = "https://spring-carsharing-demo.azurewebsites.net/auth" +
                 "/confirmRegistration?token=" + token;
+
         emailSender.send(
                 request.getEmail(),
                 emailSenderService.buildEmail(request.getFirstname(), link));

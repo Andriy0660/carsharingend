@@ -31,7 +31,7 @@ public class PasswordResetService {
         emailService.saveConfirmationToken(
                 resettingPasswordToken);
 
-        String link = "http://localhost:8080/auth" +
+        String link = "https://spring-carsharing-demo.azurewebsites.net/auth" +
                 "/resetPassword?token=" + token;
         emailSender.send(
                 user.getEmail(),
