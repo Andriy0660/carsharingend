@@ -46,10 +46,10 @@ public class AuthenticationService {
 
         List<Exception> exceptions = new ArrayList<>();
         if(userRepository.findByEmail(email).isPresent()){
-            exceptions.add(new EmailIsUsedAlreadyException(" The email is already used."));
+            exceptions.add(new EmailIsUsedAlreadyException("The email is already used"));
         }
         if(userRepository.findByPhone(phone).isPresent()){
-            exceptions.add(new PhoneIsAlreadyUsedException(" The phone is already used." ));
+            exceptions.add(new PhoneIsAlreadyUsedException("The phone is already used" ));
        }
         if(!exceptions.isEmpty()){
             throw new UserRegistrationException(exceptions);
