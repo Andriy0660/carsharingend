@@ -28,37 +28,44 @@ public class StartTimeSchedule {
     @Scheduled(fixedRate = 10000) // перевіряти кожні 10 сек
     public void checkRentedCars() {
 
+
         //перевірка чи незаброньовані машини треба змінювати
         List<Car> allCars = carService.findAll();
+        Car car;
+        Booking booking;
 
         OUTER:
-        for (Car car : allCars) {
-            for (Booking booking : car.getBookings()) {
+        for (int i =0;i<allCars.size();i++) {
+            car=allCars.get(i);
+            List<Booking> bookings = car.getBookings();
+            for (int j=0;j<bookings.size();j++) {
+                booking=bookings.get(j);
                 LocalDateTime now = LocalDateTime.now();
 
             if (!car.getIsRented()) {    //не арендовані
                     if (booking.getEndTime().isBefore(now)) {
+                        car.getBookings().remove(booking);
                         bookingService.deleteById(booking.getId()); // Видалити бронювання з бази даних
                         continue;
                     }
-                    if (booking.getStartTime().isBefore(now)){ //зараз після start_date
-                        car.setIsRented(true);
-                        car.setRenter(userService.findById(booking.getRenterId()).orElseThrow());
-                        carService.save(car);
-                    }
-
+                if (booking.getStartTime().isBefore(now)){ //зараз після start_date
+                    car.setIsRented(true);
+                    car.setRenter(userService.findById(booking.getRenterId()).orElseThrow());
+                    carService.save(car);
+                }
             } else {   //арендовані
-                    if (booking.getEndTime().isBefore(now)) {
-                        bookingService.deleteById(booking.getId()); // Видалити бронювання з бази даних
+                if (booking.getEndTime().isBefore(now)) {
+                    car.getBookings().remove(booking);
+                    bookingService.deleteById(booking.getId()); // Видалити бронювання з бази даних
                         continue;
                     }
                     if (booking.getStartTime().isBefore(now)){ //зараз після start_date
                         continue OUTER;
                     }
-                }
                 car.setIsRented(false);
                 car.setRenter(null);
                 carService.save(car);
+            }
             }
         }
 
