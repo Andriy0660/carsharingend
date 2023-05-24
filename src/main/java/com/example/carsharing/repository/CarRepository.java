@@ -10,5 +10,4 @@ public interface CarRepository extends JpaRepository<Car,Integer> {
     List<Car> findByIsRentedTrue();
     List<Car> findByIsRentedFalse();
     Optional<Car> findByIdAndIsRentedTrue(Integer id);
-
 }
