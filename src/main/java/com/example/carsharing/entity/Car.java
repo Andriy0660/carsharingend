@@ -31,6 +31,12 @@ public class Car {
     @JoinColumn(name = "renter_id")
     User renter;
 
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    @JsonIgnore
+
+    ImageData imageData;
+
     @Column(name = "rented")
     Boolean isRented;
 
@@ -58,5 +64,8 @@ public class Car {
 
     @Column(name = "description")
     String description;
+
+    @Transient
+    String ImageURL;
 
 }

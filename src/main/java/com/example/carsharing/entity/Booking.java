@@ -34,7 +34,11 @@ public class Booking {
     @NotNull
     @Column(name="end_time")
     private LocalDateTime endTime;
-//    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
-//    @JoinColumn(name = "car_id")
-//    Car car;
+
+    public Booking(Integer carId, Integer renterId, LocalDateTime startTime, LocalDateTime endTime) {
+        this.carId = carId;
+        this.renterId = renterId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 }

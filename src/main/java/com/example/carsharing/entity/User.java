@@ -45,6 +45,10 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "renter", fetch = FetchType.EAGER)
     @JsonIgnore
     List<Car> rentedCars;
+    @OneToOne
+    @JoinColumn(name = "image_id")
+
+    ImageData imageData;
 
     @Override
     public String toString() {

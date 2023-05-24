@@ -25,7 +25,6 @@ public class ExceptionHandler {
     public ResponseEntity<?> handleMissingParameter(MissingServletRequestParameterException ex) {
         String parameterName = ex.getParameterName();
         String errorMessage = "Required parameter is missing: " + parameterName;
-        //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
         return ExceptionBuilder.exceptionBuilder(ex,HttpStatus.BAD_REQUEST);
     }
 
