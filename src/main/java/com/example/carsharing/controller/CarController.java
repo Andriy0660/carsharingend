@@ -137,6 +137,6 @@ public class CarController {
 
         car = carService.save(car);
 
-        return ResponseEntity.ok(car);
+        return ResponseEntity.ok(car.getId());
     }
 }

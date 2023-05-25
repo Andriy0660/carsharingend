@@ -40,17 +40,18 @@ public class User  {
     @OneToOne
     @JoinColumn(name = "image_id")
     @JsonIgnore
-    ImageData imageData;
+    private ImageData imageData;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "owner", fetch = FetchType.EAGER)
     @JsonIgnore
-    List<Car> ownedCars;
+    private List<Car> ownedCars;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "renter", fetch = FetchType.EAGER)
     @JsonIgnore
-    List<Car> rentedCars;
+    private List<Car> rentedCars;
 
     @Column(name = "image_url")
-    String ImageURL;
-
+    private String ImageURL;
+    @Column(name = "is_volunteer")
+    private boolean isVolunteer;
 }

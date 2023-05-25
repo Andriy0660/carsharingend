@@ -73,6 +73,10 @@ public class GlobalExceptionHandler {
         return ExceptionBuilder.buildExceptionResponse(ex, HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<?> handleNumberFormatException(NumberFormatException ex) {
+        return ExceptionBuilder.buildExceptionResponse(ex, HttpStatus.BAD_REQUEST);
+    }
 }
 
 

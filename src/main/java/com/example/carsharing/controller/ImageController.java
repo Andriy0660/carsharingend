@@ -1,6 +1,6 @@
 package com.example.carsharing.controller;
 
-import com.example.carsharing.dto.response.UserProfile;
+import com.example.carsharing.dto.response.UserProfileResponse;
 import com.example.carsharing.entity.Car;
 import com.example.carsharing.entity.User;
 
@@ -41,8 +41,8 @@ public class ImageController {
 
         userService.save(user);
 
-        UserProfile userProfile =  new UserProfileMapper().mapToUserProfile(user);
-        return ResponseEntity.ok(userProfile);
+        UserProfileResponse userProfileResponse =  new UserProfileMapper().mapToUserProfile(user);
+        return ResponseEntity.ok(userProfileResponse);
     }
     @PostMapping("/uploadCarImage")
     public ResponseEntity<?> uploadCarImage(@RequestParam("image") MultipartFile file,
