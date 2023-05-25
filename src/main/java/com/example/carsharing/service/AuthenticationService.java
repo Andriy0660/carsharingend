@@ -53,8 +53,8 @@ public class AuthenticationService {
 
 
         var user = User.builder()
-                .firstname(request.getFirstName())
-                .lastname(request.getLastName())
+                .firstname(request.getFirstname())
+                .lastname(request.getLastname())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .email(request.getEmail())
                 .enabled(false)
@@ -76,7 +76,7 @@ public class AuthenticationService {
 
         emailSender.send(
                 request.getEmail(),
-                emailSenderService.buildEmail(request.getFirstName(), link));
+                emailSenderService.buildEmail(request.getFirstname(), link));
 
     }
 

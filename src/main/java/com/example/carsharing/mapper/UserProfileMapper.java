@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 public class UserProfileMapper {
 
-    public UserProfile mapToUserProfile(User user) {
+    public static UserProfile mapToUserProfile(User user) {
         UserProfile userProfile = new UserProfile();
         userProfile.setEmail(user.getEmail());
         userProfile.setPhone(user.getPhone());
