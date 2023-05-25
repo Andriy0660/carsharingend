@@ -6,6 +6,7 @@ import com.example.carsharing.email.password_reseting.email_sender.EmailPassword
 import com.example.carsharing.entity.ResettingPasswordToken;
 import com.example.carsharing.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,8 @@ public class PasswordResetService {
     private final EmailPasswordTokenService emailService;
     private final EmailPasswordService emailSender;
     private final EmailPasswordSenderService emailSenderService;
+    @Value("${resetting.password.link}")
+    private String resettingPasswordLink;
 
     public void resetPassword(User user){
         String token = UUID.randomUUID().toString();
@@ -31,8 +34,7 @@ public class PasswordResetService {
         emailService.saveConfirmationToken(
                 resettingPasswordToken);
 
-        String link = "https://spring-carsharing-demo.azurewebsites.net/auth" +
-                "/resetPassword?token=" + token;
+        String link = resettingPasswordLink+token;
         emailSender.send(
                 user.getEmail(),
                 emailSenderService.buildEmail(user.getFirstname(), link));

@@ -15,9 +15,12 @@ import com.example.carsharing.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -76,7 +79,4 @@ public class AuthenticationController {
     ){
         return ResponseEntity.ok(authService.authenticate(request));
     }
-
-
-
 }

@@ -37,7 +37,6 @@ public class AuthenticationService {
     private final EmailSenderService emailSenderService;
     private final UserService userService;
     @Value("${confirm.registration.url}")
-
     private String confirmRegistrationURL;
     public void register(RegisterRequest request)
     {
