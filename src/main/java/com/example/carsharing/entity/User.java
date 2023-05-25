@@ -37,13 +37,11 @@ public class User  {
     @Column(name = "phone", length = 13,unique = true)
     private String phone;
 
-    @Column(name = "enabled",nullable = false)
-    @JsonIgnore
-    private boolean enabled;
     @OneToOne
     @JoinColumn(name = "image_id")
     @JsonIgnore
     ImageData imageData;
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "owner", fetch = FetchType.EAGER)
     @JsonIgnore
     List<Car> ownedCars;
@@ -51,6 +49,7 @@ public class User  {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "renter", fetch = FetchType.EAGER)
     @JsonIgnore
     List<Car> rentedCars;
+
     @Column(name = "image_url")
     String ImageURL;
 

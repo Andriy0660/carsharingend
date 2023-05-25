@@ -23,9 +23,7 @@ public class AddCarRequest {
     @NotNull
     @Range(min = 1990,max=2023)
     Integer year;
-    @NotNull
-    @Min(0)
-    Double price;
+
     @NotBlank
 
     String color;

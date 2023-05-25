@@ -48,9 +48,6 @@ public class Car {
     @Column(name = "year")
     Integer year;
 
-    @Column(name = "price")
-    Double price;
-
     @Column(name = "color")
     String color;
 

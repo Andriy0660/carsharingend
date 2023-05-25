@@ -11,7 +11,6 @@ public class CarMapper {
         car.setVendor(carInfo.getVendor());
         car.setModel(carInfo.getModel());
         car.setYear(carInfo.getYear());
-        car.setPrice(carInfo.getPrice());
         car.setColor(carInfo.getColor());
         car.setLocation(carInfo.getLocation());
         car.setDescription(carInfo.getDescription());
