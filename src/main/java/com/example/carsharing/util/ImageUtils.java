@@ -10,28 +10,24 @@ import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 public class ImageUtils {
-    public static byte[] resizeImage(byte[] data, int newWidth, int newHeight) {
-        try {
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
-            BufferedImage inputImage = ImageIO.read(inputStream);
+    public static byte[] resizeImage(byte[] data, int newWidth, int newHeight) throws IOException {
 
-            BufferedImage outputImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g2d = outputImage.createGraphics();
-            g2d.drawImage(inputImage, 0, 0, newWidth, newHeight, null);
-            g2d.dispose();
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
+        BufferedImage inputImage = ImageIO.read(inputStream);
 
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ImageIO.write(outputImage, "jpg", outputStream);
-            outputStream.close();
+        BufferedImage outputImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = outputImage.createGraphics();
+        g2d.drawImage(inputImage, 0, 0, newWidth, newHeight, null);
+        g2d.dispose();
 
-            return outputStream.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ImageIO.write(outputImage, "jpg", outputStream);
+        outputStream.close();
+
+        return outputStream.toByteArray();
     }
 
-    public static byte[] compressImage(byte[] data) {
+    public static byte[] compressImage(byte[] data) throws IOException {
         Deflater deflater = new Deflater();
         deflater.setLevel(Deflater.BEST_COMPRESSION);
         deflater.setInput(data);
@@ -44,10 +40,9 @@ public class ImageUtils {
             int size = deflater.deflate(tmp);
             outputStream.write(tmp, 0, size);
         }
-        try {
-            outputStream.close();
-        } catch (Exception ignored) {
-        }
+
+        outputStream.close();
+
         return outputStream.toByteArray();
     }
 

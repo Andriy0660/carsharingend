@@ -26,7 +26,7 @@ public class BookingTimeSchedule {
     private BookingService bookingService;
 
     @Transactional
-    @Scheduled(fixedRate = 10000) // перевіряти кожні 10 сек
+    @Scheduled(fixedRate = 1000) // перевіряти кожні 10 сек
     public void checkRentedCars() {
 
 

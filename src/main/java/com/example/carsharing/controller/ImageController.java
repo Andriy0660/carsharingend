@@ -7,7 +7,7 @@ import com.example.carsharing.entity.User;
 import com.example.carsharing.mapper.UserProfileMapper;
 import com.example.carsharing.service.CarService;
 import com.example.carsharing.service.ImageService;
-import com.example.carsharing.service.UserDetailsImpl;
+import com.example.carsharing.entity.UserDetailsImpl;
 import com.example.carsharing.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +25,7 @@ import java.io.IOException;
 public class ImageController {
     @Value("${image.url}")
 
-    private static String imageUrl;
+    private String imageUrl;
     private final ImageService imageService;
     private final UserService userService;
     private final CarService carService;
@@ -37,9 +37,11 @@ public class ImageController {
 
         imageService.uploadImage(file);
         user.setImageData(imageService.getImageData(file.getOriginalFilename()));
+        user.setImageURL(imageUrl + user.getImageData().getName());
+
         userService.save(user);
 
-        UserProfile userProfile = UserProfileMapper.mapToUserProfile(user);
+        UserProfile userProfile =  new UserProfileMapper().mapToUserProfile(user);
         return ResponseEntity.ok(userProfile);
     }
     @PostMapping("/uploadCarImage")
@@ -47,10 +49,10 @@ public class ImageController {
                                             @RequestParam("id")Long id) throws IOException {
         imageService.uploadImage(file);
 
-        Car car = carService.findById(id).orElseThrow();
+        Car car = carService.findById(id);
         car.setImageData(imageService.getImageData(file.getOriginalFilename()));
         car.setImageURL(imageUrl + car.getImageData().getName());
-        carService.save(car);
+        car = carService.save(car);
 
         return ResponseEntity.ok(car);
     }

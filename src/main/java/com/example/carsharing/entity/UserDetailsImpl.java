@@ -1,7 +1,6 @@
-package com.example.carsharing.service;
+package com.example.carsharing.entity;
 
 
-import com.example.carsharing.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

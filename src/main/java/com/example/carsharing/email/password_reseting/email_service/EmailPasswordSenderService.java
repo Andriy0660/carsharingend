@@ -4,7 +4,7 @@ package com.example.carsharing.email.password_reseting.email_service;
 
 import com.example.carsharing.entity.ResettingPasswordToken;
 import com.example.carsharing.entity.User;
-import com.example.carsharing.exception.email_exception.exception.EmailVerificationRuntimeException;
+import com.example.carsharing.exception.BadRequestException;
 import com.example.carsharing.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -25,14 +25,14 @@ public class EmailPasswordSenderService {
         ResettingPasswordToken confirmationToken = confirmationTokenService
                 .getEmailConfirmationToken(token)
                 .orElseThrow(() ->
-                        new EmailVerificationRuntimeException("Link is not valid. You need to generate new request."));
+                        new BadRequestException("Link is not valid. You need to generate new request."));
 
         if (confirmationToken.isConfirmed()) {
-            throw new EmailVerificationRuntimeException("Email already confirmed.");
+            throw new BadRequestException("Email already confirmed.");
         }
         LocalDateTime expiredAt = confirmationToken.getExpiredAt();
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new EmailVerificationRuntimeException("Link is expired. You need to generate new request.");
+            throw new BadRequestException("Link is expired. You need to generate new request.");
         }
 
     }
@@ -41,14 +41,14 @@ public class EmailPasswordSenderService {
         ResettingPasswordToken confirmationToken = confirmationTokenService
                 .getEmailConfirmationToken(token)
                 .orElseThrow(() ->
-                        new EmailVerificationRuntimeException("Link is not valid. You need to generate new request."));
+                        new BadRequestException("Link is not valid. You need to generate new request."));
 
         if (confirmationToken.isConfirmed()) {
-            throw new EmailVerificationRuntimeException("Email already confirmed.");
+            throw new BadRequestException("Email already confirmed.");
         }
         LocalDateTime expiredAt = confirmationToken.getExpiredAt();
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new EmailVerificationRuntimeException("Link is expired. You need to generate new request.");
+            throw new BadRequestException("Link is expired. You need to generate new request.");
         }
         confirmationToken.setConfirmed(true);
         confirmationTokenService.saveConfirmationToken(confirmationToken);

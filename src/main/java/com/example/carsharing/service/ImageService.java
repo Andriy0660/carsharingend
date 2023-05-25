@@ -2,6 +2,7 @@ package com.example.carsharing.service;
 
 
 import com.example.carsharing.entity.ImageData;
+import com.example.carsharing.exception.BadRequestException;
 import com.example.carsharing.repository.ImageRepository;
 import com.example.carsharing.util.ImageUtils;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,10 @@ import java.util.Optional;
 public class ImageService {
     private final ImageRepository repository;
     public void uploadImage(MultipartFile file) throws IOException {
+        if(!file.getOriginalFilename().endsWith(".jpg")
+                &&!file.getOriginalFilename().endsWith(".jpeg")
+                &&!file.getOriginalFilename().endsWith(".png"))
+            throw new BadRequestException("This file is not image");
         repository.save(ImageData.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
@@ -25,13 +30,14 @@ public class ImageService {
     }
 
     public byte[] getImage(String fileName){
-        Optional<ImageData> dbImageData = repository.findByName(fileName);
-        byte[] images=ImageUtils.decompressImage(dbImageData.get().getImageData());
+        ImageData dbImageData = repository.findAllByName(fileName).orElseThrow(
+                ()->new NoSuchElementException("Error, there is no image with this URL")).get(0);
+        byte[] images=ImageUtils.decompressImage(dbImageData.getImageData());
         return images;
     }
     public ImageData getImageData(String fileName){
-        return repository.findByName(fileName).orElseThrow(
-                ()->new NoSuchElementException("No images with this file name"));
+        return repository.findAllByName(fileName).orElseThrow(
+                ()->new NoSuchElementException("No images with this file name")).get(0);
     }
 
 }

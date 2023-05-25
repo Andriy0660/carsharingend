@@ -4,15 +4,16 @@ import com.example.carsharing.dto.request.AddCarRequest;
 import com.example.carsharing.entity.Booking;
 import com.example.carsharing.entity.Car;
 import com.example.carsharing.entity.User;
+import com.example.carsharing.exception.BadRequestException;
+import com.example.carsharing.exception.ConflictException;
 import com.example.carsharing.mapper.CarMapper;
 import com.example.carsharing.service.BookingService;
 import com.example.carsharing.service.CarService;
 import com.example.carsharing.service.ImageService;
-import com.example.carsharing.service.UserDetailsImpl;
+import com.example.carsharing.entity.UserDetailsImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -51,7 +51,10 @@ public class CarController {
                                               LocalDateTime endTime) {
 
         if (startTime.isAfter(endTime)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Start time must be before end time");
+            throw new BadRequestException("Start time must be before end time");
+        }
+        if (startTime.isBefore(LocalDateTime.now())) {
+            throw new BadRequestException("Start time must be after now");
         }
 
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
@@ -92,21 +95,16 @@ public class CarController {
                                      @RequestParam("endTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime endTime) {
 
         if (startTime.isAfter(endTime)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Start time must be before end time");
+            throw new BadRequestException("Start time must be before end time");
         }
         if (startTime.isBefore(LocalDateTime.now())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Start time must be after now");
+            throw new BadRequestException("Start time must be after now");
         }
 
-        Optional<Car> optional = carService.findById(id);
-        if (!optional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is no car with id " + id);
-        }
-
-        Car car = optional.get();
+        Car car = carService.findById(id);
 
         if (!carService.isCarAvailable(car, startTime, endTime)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This auto is not available for this period");
+            throw new ConflictException("This auto is not available for this period");
         }
 
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
@@ -115,8 +113,8 @@ public class CarController {
 
         User owner = car.getOwner();
 
-        if (renter.getId() == owner.getId()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You can not rent your car");
+        if (renter.getId().equals(owner.getId())) {
+            throw new BadRequestException("You can not rent your car");
         }
 
         Booking booking = new Booking(car.getId(), renter.getId(), startTime, endTime);

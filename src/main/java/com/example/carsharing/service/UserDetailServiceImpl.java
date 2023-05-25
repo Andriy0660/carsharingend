@@ -2,6 +2,7 @@ package com.example.carsharing.service;
 
 
 import com.example.carsharing.entity.User;
+import com.example.carsharing.entity.UserDetailsImpl;
 import com.example.carsharing.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -18,7 +19,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new BadCredentialsException(""));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return new UserDetailsImpl(user);
     }
 

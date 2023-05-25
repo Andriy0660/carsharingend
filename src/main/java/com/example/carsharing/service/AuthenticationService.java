@@ -9,11 +9,10 @@ import com.example.carsharing.email.email_verification.email_service.EmailConfir
 import com.example.carsharing.email.email_verification.email_service.EmailSenderService;
 import com.example.carsharing.entity.EmailConfirmationToken;
 import com.example.carsharing.entity.User;
-import com.example.carsharing.exception.user_exception.exception.EmailIsUsedAlreadyException;
-import com.example.carsharing.exception.user_exception.exception.PhoneIsAlreadyUsedException;
-import com.example.carsharing.exception.user_exception.exception.UserRegistrationException;
-import com.example.carsharing.repository.UserRepository;
+import com.example.carsharing.exception.BadRequestException;
+import com.example.carsharing.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -22,15 +21,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.UUID;
 
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository userRepository;
     private final UserDetailServiceImpl userDetailService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -39,31 +36,31 @@ public class AuthenticationService {
     private final EmailConfirmationSender emailSender;
     private final EmailSenderService emailSenderService;
     private final UserService userService;
+    @Value("${confirm.registration.url}")
+
+    private String confirmRegistrationURL;
     public void register(RegisterRequest request)
     {
         String email = request.getEmail();
         String phone = request.getPhone();
 
-        List<Exception> exceptions = new ArrayList<>();
-        if(userRepository.findByEmail(email).isPresent()){
-            exceptions.add(new EmailIsUsedAlreadyException("The email is already used"));
+        if(userService.existsUserByEmail(email)){
+            throw new BadRequestException("The email is already used");
         }
-        if(userRepository.findByPhone(phone).isPresent()){
-            exceptions.add(new PhoneIsAlreadyUsedException("The phone is already used" ));
-       }
-        if(!exceptions.isEmpty()){
-            throw new UserRegistrationException(exceptions);
+        if(userService.existsByPhone(phone)){
+            throw new BadRequestException("The phone is already used" );
         }
 
+
         var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
+                .firstname(request.getFirstName())
+                .lastname(request.getLastName())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .email(request.getEmail())
                 .enabled(false)
                 .phone(request.getPhone())
                 .build();
-        userRepository.save(user);
+        userService.save(user);
         String token = UUID.randomUUID().toString();
         EmailConfirmationToken emailConfirmationToken = new EmailConfirmationToken(
                 token,
@@ -75,12 +72,11 @@ public class AuthenticationService {
 
         emailService.saveConfirmationToken(emailConfirmationToken);
 
-        String link = "https://spring-carsharing-demo.azurewebsites.net/auth" +
-                "/confirmRegistration?token=" + token;
+        String link = confirmRegistrationURL + token;
 
         emailSender.send(
                 request.getEmail(),
-                emailSenderService.buildEmail(request.getFirstname(), link));
+                emailSenderService.buildEmail(request.getFirstName(), link));
 
     }
 
@@ -88,7 +84,7 @@ public class AuthenticationService {
         try {
             if(!checkPassword(request.getPassword(),
                     userService.findUserByEmail(request.getEmail()).getPassword())){
-                throw new BadCredentialsException("Username or password is wrong");
+                throw new UnauthorizedException("Username or password is wrong");
             }
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -96,7 +92,7 @@ public class AuthenticationService {
                     )
             );
         } catch (BadCredentialsException | InternalAuthenticationServiceException e) {
-            throw new BadCredentialsException("Username or password is wrong");
+            throw new UnauthorizedException("Username or password is wrong");
         }
 
 

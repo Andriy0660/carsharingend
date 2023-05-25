@@ -4,7 +4,7 @@ package com.example.carsharing.email.email_verification.email_service;
 
 import com.example.carsharing.entity.EmailConfirmationToken;
 import com.example.carsharing.entity.User;
-import com.example.carsharing.exception.email_exception.exception.EmailVerificationRuntimeException;
+import com.example.carsharing.exception.email_exception.EmailVerificationRuntimeException;
 import com.example.carsharing.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

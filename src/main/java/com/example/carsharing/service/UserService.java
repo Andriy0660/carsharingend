@@ -27,6 +27,10 @@ public class UserService {
         }
         return optionalUser.get();
     }
+    boolean existsUserByEmail(String email){return repository.existsByEmail(email);}
+    boolean existsByPhone(String phone){return repository.existsByPhone(phone);}
+
+
     public void delete(User user){
         repository.delete(user);
     }

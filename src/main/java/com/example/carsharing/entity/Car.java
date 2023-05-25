@@ -30,7 +30,6 @@ public class Car {
     @OneToOne
     @JoinColumn(name = "image_id")
     @JsonIgnore
-
     ImageData imageData;
 
     @Column(name = "rented")
@@ -61,7 +60,7 @@ public class Car {
     @Column(name = "description")
     String description;
 
-    @Transient
+    @Column(name = "image_url")
     String ImageURL;
 
 }

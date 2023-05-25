@@ -10,15 +10,12 @@ import com.example.carsharing.email.email_verification.email_service.EmailSender
 import com.example.carsharing.email.password_reseting.email_service.EmailPasswordSenderService;
 import com.example.carsharing.email.password_reseting.email_service.PasswordResetService;
 import com.example.carsharing.entity.User;
-import com.example.carsharing.exception.user_exception.ErrorResponse;
 import com.example.carsharing.service.AuthenticationService;
 import com.example.carsharing.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
