@@ -1,21 +1,19 @@
 package com.example.carsharing.controller;
 
+import com.example.carsharing.dto.response.IsVolunteerResponse;
 import com.example.carsharing.dto.response.UserProfileResponse;
 import com.example.carsharing.entity.User;
 import com.example.carsharing.entity.UserDetailsImpl;
 import com.example.carsharing.mapper.UserProfileMapper;
 import com.example.carsharing.service.UserService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/carsharing/users")
 @RequiredArgsConstructor
-@Validated
 public class UserController {
     private final UserService userService;
 
@@ -27,8 +25,8 @@ public class UserController {
         return UserProfileMapper.mapToUserProfile(user);
     }
 
-    @PutMapping("/cofirmVolunteerStatus")
-    public ResponseEntity<User> cofirmVolunteerStatus(@RequestParam("number") String number) {
+    @PutMapping("/confirmVolunteerStatus")
+    public ResponseEntity<UserProfileResponse> confirmVolunteerStatus(@RequestParam("number") String number) {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
                 getAuthentication().getPrincipal();
         User user = userDetails.getUser();
@@ -39,6 +37,13 @@ public class UserController {
                 userService.save(user);
             }
         } catch (NumberFormatException ignored) {}
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(UserProfileMapper.mapToUserProfile(user));
+    }
+    @GetMapping("/checkVolunteerStatus")
+    public ResponseEntity<IsVolunteerResponse> checkVolunteerStatus(){
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        User user = userDetails.getUser();
+        return ResponseEntity.ok(new IsVolunteerResponse(user.isVolunteer()));
     }
 }

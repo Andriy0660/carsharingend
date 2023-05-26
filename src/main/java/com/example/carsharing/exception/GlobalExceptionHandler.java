@@ -1,5 +1,6 @@
 package com.example.carsharing.exception;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,6 +78,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleNumberFormatException(NumberFormatException ex) {
         return ExceptionBuilder.buildExceptionResponse(ex, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(SQLServerException.class)
+    public ResponseEntity<?> handleSQLException(SQLServerException ex) {
+        return ExceptionBuilder.buildExceptionResponse(
+                new ServerErrorException("Application can not insert this data to database"),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
 
 

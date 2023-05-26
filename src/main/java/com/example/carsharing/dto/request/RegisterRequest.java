@@ -14,6 +14,7 @@ public class RegisterRequest {
     @NotBlank(message = "Email must be not null")
     private String email;
     @NotBlank(message = "Password must be not null")
+    @Size(min = 6)
     private String password;
     @NotBlank(message = "Firstname must be not null")
     private String firstName;

@@ -59,9 +59,7 @@ public class AuthenticationService {
             throw new UnauthorizedException("Username or password is wrong");
         }
 
-
         var user = userDetailService.loadUserByUsername(request.getEmail());
-
 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();

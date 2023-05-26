@@ -5,6 +5,7 @@ import com.example.carsharing.dto.response.InquireResponse;
 import com.example.carsharing.entity.Inquire;
 import com.example.carsharing.entity.User;
 import com.example.carsharing.entity.UserDetailsImpl;
+import com.example.carsharing.exception.BadRequestException;
 import com.example.carsharing.mapper.InquireMapper;
 import com.example.carsharing.service.InquireService;
 import jakarta.validation.Valid;
@@ -28,7 +29,9 @@ public class InquiriesController {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
                 getAuthentication().getPrincipal();
         User user = userDetails.getUser();
-
+        if(user.isVolunteer()==false){
+            throw new BadRequestException("You are not a volunteer, you can not rent car");
+        }
         Inquire inquire = InquireMapper.mapToAddInquire(request);
         inquire.setVolunteer(user);
 
@@ -47,7 +50,7 @@ public class InquiriesController {
         List<InquireResponse> inquries = inquireService
                 .findAllByOwnerIsNull()
                 .stream()
-                .filter(i -> i.getOwner().getId() != user.getId())
+                .filter(i -> i.getVolunteer().getId() != user.getId())
                 .map((i)->new InquireResponse(
                         i.getId(),
                         i.getVolunteer().getFirstname(),
@@ -60,11 +63,13 @@ public class InquiriesController {
     }
 
     @PutMapping("/lend")
-    public void lendCar(@RequestParam("id") Long id){
+    public ResponseEntity<?> lendCar(@RequestParam("id") Long id){
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
                 getAuthentication().getPrincipal();
         User user = userDetails.getUser();
         Inquire inquire = inquireService.findById(id);
         inquire.setOwner(user);
+        inquireService.save(inquire);
+        return ResponseEntity.ok().build();
     }
 }

@@ -26,14 +26,16 @@ public class CarService{
             if ((startDate.equals(booking.getStartTime()))
                     ||(endDate.equals(booking.getEndTime()))
                     ||(startDate.isAfter(booking.getStartTime())&&startDate.isBefore(booking.getEndTime()))
-                    || (endDate.isAfter(booking.getStartTime()) && endDate.isBefore(booking.getEndTime()))) {
+                    || (endDate.isAfter(booking.getStartTime()) && endDate.isBefore(booking.getEndTime()))
+                    ||(booking.getStartTime().isAfter(startDate)&&booking.getEndTime().isBefore(startDate))
+                    || (booking.getStartTime().isAfter(endDate) && booking.getEndTime().isBefore(endDate))) {
                 return false;
             }
         }
         return true;
     }
-    @Transactional
     public Car save(Car car){
         return carRepository.save(car);
     }
+    public List<Car> findAllByIdIsIn(List<Long> ids){return carRepository.findAllByIdIsIn(ids);}
 }

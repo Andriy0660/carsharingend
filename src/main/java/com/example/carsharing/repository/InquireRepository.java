@@ -7,6 +7,6 @@ import java.util.List;
 
 
 public interface InquireRepository extends JpaRepository<Inquire,Long> {
-    public List<Inquire> findAllByOwnerIsNull();
-    public List<Inquire> findAllByOwnerIsNotNullAndNeedsDeliveryIsTrue();
+    List<Inquire> findAllByOwnerIsNull();
+    List<Inquire> findAllByOwnerIsNotNullAndNeedsDeliveryIsTrue();
 }

@@ -1,6 +1,5 @@
 package com.example.carsharing.service;
 
-
 import com.example.carsharing.entity.ImageData;
 import com.example.carsharing.exception.BadRequestException;
 import com.example.carsharing.repository.ImageRepository;
@@ -11,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class ImageService {
@@ -39,5 +37,4 @@ public class ImageService {
         return repository.findAllByName(fileName).orElseThrow(
                 ()->new NoSuchElementException("No images with this file name")).get(0);
     }
-
 }

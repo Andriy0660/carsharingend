@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DeliveryController {
     private final InquireService inquireService;
-
     @GetMapping
     public ResponseEntity<List<InquireResponse>> getInquiresNeedsDelivery(){
 

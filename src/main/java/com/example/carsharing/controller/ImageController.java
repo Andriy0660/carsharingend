@@ -4,11 +4,14 @@ import com.example.carsharing.dto.response.UserProfileResponse;
 import com.example.carsharing.entity.Car;
 import com.example.carsharing.entity.User;
 
+import com.example.carsharing.exception.BadRequestException;
+import com.example.carsharing.exception.ServerErrorException;
 import com.example.carsharing.mapper.UserProfileMapper;
 import com.example.carsharing.service.CarService;
 import com.example.carsharing.service.ImageService;
 import com.example.carsharing.entity.UserDetailsImpl;
 import com.example.carsharing.service.UserService;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("carsharing/images")
@@ -47,13 +52,19 @@ public class ImageController {
     @PostMapping("/uploadCarImage")
     public ResponseEntity<?> uploadCarImage(@RequestParam("image") MultipartFile file,
                                             @RequestParam("id")Long id) throws IOException {
-        imageService.uploadImage(file);
+        Pattern pattern = Pattern.compile("\\p{InCyrillic}+");
+        if (pattern.matcher(file.getOriginalFilename()).find()){
+            throw new BadRequestException("Filename must contain only english letters");
+        }
 
         Car car = carService.findById(id);
+        try{
         car.setImageData(imageService.getImageData(file.getOriginalFilename()));
         car.setImageURL(imageUrl + car.getImageData().getName());
         car = carService.save(car);
-
+        }catch (Exception e) {
+            throw new ServerErrorException("Application can not insert this data to database");
+        }
         return ResponseEntity.ok(car);
     }
 

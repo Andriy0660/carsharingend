@@ -14,6 +14,7 @@ public class UserProfileMapper {
         userProfileResponse.setLastName(user.getLastname());
         if(user.getImageData()!=null)
             userProfileResponse.setImageURL(user.getImageURL());
+        userProfileResponse.setIsVolunteer(user.isVolunteer());
         return userProfileResponse;
     }
 }

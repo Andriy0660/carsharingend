@@ -19,9 +19,6 @@ public class InquireService {
         return inquireRepository.findById(id).orElseThrow(()->new BadRequestException("There is no inquire with id " + id));
     }
 
-    public List<Inquire> findAll(){
-        return inquireRepository.findAll();
-    }
     public Inquire save(Inquire inquire){
         return inquireRepository.save(inquire);
     }

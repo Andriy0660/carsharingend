@@ -9,12 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserProfileResponse {
-    private String email;
-    private String phone;
-    private String firstName;
-    private String lastName;
-    private String imageURL;
-    private Boolean isVolunteer;
-
+public class CarIdResponse {
+    private Long Id;
 }

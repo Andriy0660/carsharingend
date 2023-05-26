@@ -1,6 +1,7 @@
 package com.example.carsharing.controller;
 
 import com.example.carsharing.dto.request.AddCarRequest;
+import com.example.carsharing.dto.response.CarIdResponse;
 import com.example.carsharing.entity.Booking;
 import com.example.carsharing.entity.Car;
 import com.example.carsharing.entity.User;
@@ -29,7 +30,6 @@ import java.util.stream.Collectors;
 public class CarController {
     private final CarService carService;
     private final BookingService bookingService;
-    private final ImageService imageService;
 
     @GetMapping("/available")
     public ResponseEntity<List<Car>> getAvailableCars() {
@@ -85,8 +85,10 @@ public class CarController {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
                 getAuthentication().getPrincipal();
         User user = userDetails.getUser();
-        List<Car> rentedCars = user.getRentedCars();
-        return ResponseEntity.ok(rentedCars);
+        List<Long> integers = bookingService.findAllByRenterId(user.getId())
+                .stream().map(i->i.getCarId()).collect(Collectors.toList());
+
+        return ResponseEntity.ok(carService.findAllByIdIsIn(integers));
     }
 
     @PutMapping("/rent")
@@ -110,7 +112,9 @@ public class CarController {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
                 getAuthentication().getPrincipal();
         User renter = userDetails.getUser();
-
+        if(renter.isVolunteer()==false){
+            throw new BadRequestException("You are not a volunteer, you can not rent car");
+        }
         User owner = car.getOwner();
 
         if (renter.getId().equals(owner.getId())) {
@@ -137,6 +141,6 @@ public class CarController {
 
         car = carService.save(car);
 
-        return ResponseEntity.ok(car.getId());
+        return ResponseEntity.ok(new CarIdResponse(car.getId()));
     }
 }
