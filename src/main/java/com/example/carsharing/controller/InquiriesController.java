@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/carsharing/inquiries")
+@RequestMapping("/carsharing/inquires")
 @RequiredArgsConstructor
 @Validated
 public class InquiriesController {
@@ -35,9 +35,9 @@ public class InquiriesController {
         Inquire inquire = InquireMapper.mapToAddInquire(request);
         inquire.setVolunteer(user);
 
-        inquire = inquireService.save(inquire);
+        inquireService.save(inquire);
 
-        return ResponseEntity.ok(inquire);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/getInquires")

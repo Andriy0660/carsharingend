@@ -40,7 +40,6 @@ public class DeliveryController {
     public void confirm(@RequestParam Long id){
         Inquire inquire = inquireService.findById(id);
         inquire.setNeedsDelivery(false);
-
         inquireService.save(inquire);
     }
 }
