@@ -26,7 +26,7 @@ public class DeliveryController {
 
         return ResponseEntity.ok(
                 inquireService.findAllByOwnerIsNotNullAndNeedsDeliveryIsTrue().stream()
-                .filter(i -> i.getOwner().getId() != user.getId())
+                .filter(i -> i.getVolunteer().getId() != user.getId())
                 .map((i)->new InquireResponse(
                         i.getId(),
                         i.getVolunteer().getFirstname(),
