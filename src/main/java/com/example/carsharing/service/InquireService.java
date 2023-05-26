@@ -16,8 +16,8 @@ public class InquireService {
     private final InquireRepository inquireRepository;
 
     public Inquire findById(Long id){
-        return inquireRepository.findById(id).orElseThrow(()->new BadRequestException("There is no inquire with id " + id));
-    }
+        return inquireRepository.findById(id).orElseThrow(
+                ()->new BadRequestException("There is no inquire with id " + id));}
 
     public Inquire save(Inquire inquire){
         return inquireRepository.save(inquire);

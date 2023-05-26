@@ -61,11 +61,11 @@ public class ImageController {
         try{
         car.setImageData(imageService.getImageData(file.getOriginalFilename()));
         car.setImageURL(imageUrl + car.getImageData().getName());
-        car = carService.save(car);
+        carService.save(car);
         }catch (Exception e) {
             throw new ServerErrorException("Application can not insert this data to database");
         }
-        return ResponseEntity.ok(car);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{fileName}")
