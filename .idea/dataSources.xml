@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@CarSharing" uuid="457ff1cb-2b82-4a24-83f3-9e1559169987">
-      <driver-ref>sqlserver.ms</driver-ref>
+    <data-source source="LOCAL" name="@zakhardb.cqa7jzbgqmbo.eu-central-1.rds.amazonaws.com" uuid="6633053c-7616-4241-8fa5-20cd58ea4d48">
+      <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://carsharing.database.windows.net:1433;database=CarSharing;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-      <driver-properties>
-        <property name="encrypt" value="True" />
-        <property name="hostNameInCertificate" value="*.database.windows.net" />
-      </driver-properties>
-    </data-source>
-    <data-source source="LOCAL" name="CarSharing@carsharing.database.windows.net" uuid="bed1c574-2025-4257-a307-aa03743bb440">
-      <driver-ref>azure.ms</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://carsharing.database.windows.net:1433;database=CarSharing;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;</jdbc-url>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://zakhardb.cqa7jzbgqmbo.eu-central-1.rds.amazonaws.com:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
