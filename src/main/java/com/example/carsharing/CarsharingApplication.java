@@ -6,12 +6,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+//import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 @SpringBootApplication
 @EnableScheduling
 @EnableTransactionManagement
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableSwagger2
 public class CarsharingApplication {
     public static void main(String[] args) {
         SpringApplication.run(CarsharingApplication.class, args);
