@@ -4,6 +4,7 @@ import com.example.carsharing.dto.response.IsVolunteerResponse;
 import com.example.carsharing.dto.response.UserProfileResponse;
 import com.example.carsharing.entity.User;
 import com.example.carsharing.entity.UserDetailsImpl;
+import com.example.carsharing.exception.BadRequestException;
 import com.example.carsharing.mapper.UserProfileMapper;
 import com.example.carsharing.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class UserController {
         return UserProfileMapper.mapToUserProfile(user);
     }
 
-    @PutMapping("/confirmVolunteerStatus")
+    @PutMapping("/confirmvolunteerstatus")
     public ResponseEntity<UserProfileResponse> confirmVolunteerStatus(@RequestParam("number") String number) {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
                 getAuthentication().getPrincipal();
@@ -39,7 +40,17 @@ public class UserController {
         } catch (NumberFormatException ignored) {}
         return ResponseEntity.ok(UserProfileMapper.mapToUserProfile(user));
     }
-    @GetMapping("/checkVolunteerStatus")
+    @PutMapping("/addphone")
+    public ResponseEntity<?> addPhone(@RequestParam("phone") String phone) {
+        if (!phone.matches("^380\\d{9}$")) throw new BadRequestException("phone is not valid");
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+        User user = userDetails.getUser();
+        user.setPhone("+"+phone);
+        userService.save(user);
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("/checkvolunteerstatus")
     public ResponseEntity<IsVolunteerResponse> checkVolunteerStatus(){
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
                 getAuthentication().getPrincipal();

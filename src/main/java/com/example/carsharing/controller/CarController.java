@@ -10,10 +10,8 @@ import com.example.carsharing.exception.ConflictException;
 import com.example.carsharing.mapper.CarMapper;
 import com.example.carsharing.service.BookingService;
 import com.example.carsharing.service.CarService;
-import com.example.carsharing.service.ImageService;
 import com.example.carsharing.entity.UserDetailsImpl;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -29,7 +27,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/carsharing/cars")
 @RequiredArgsConstructor
-@Tag(name = "Car", description = "Operations with car")
 public class CarController {
     private final CarService carService;
     private final BookingService bookingService;
@@ -45,7 +42,7 @@ public class CarController {
                 filter(i -> i.getOwner().getId() != user.getId()).toList());
     }
 
-    @GetMapping("/availableByTime")
+    @GetMapping("/availablebytime")
     public ResponseEntity<?> getAvailableCars(@RequestParam("startTime")
                                               @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
                                               LocalDateTime startTime,

@@ -22,6 +22,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleBadRequestException(BadRequestException ex) {
         return ExceptionBuilder.buildExceptionResponse(ex, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(ServerErrorException.class)
+    public ResponseEntity<?> handleServerErrorException(ServerErrorException ex) {
+        return ExceptionBuilder.buildExceptionResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity<?> handleConflictException(ConflictException ex) {
         return ExceptionBuilder.buildExceptionResponse(ex, HttpStatus.CONFLICT);

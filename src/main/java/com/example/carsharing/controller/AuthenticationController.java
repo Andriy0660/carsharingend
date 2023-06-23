@@ -4,7 +4,6 @@ package com.example.carsharing.controller;
 import com.example.carsharing.dto.request.AuthenticationRequest;
 import com.example.carsharing.dto.request.RegisterRequest;
 import com.example.carsharing.dto.response.AuthenticationResponse;
-import com.example.carsharing.exception.BadRequestException;
 import com.example.carsharing.exception.ExceptionDetails;
 import com.example.carsharing.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,20 +14,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("carsharing/auth")
 @RequiredArgsConstructor
 @Tag(name = "Authentication", description = "Contains authentication methods")
 
 public class AuthenticationController {
     private final AuthenticationService authService;
+    @Value("${loginPage}")
+    private String loginPage;
+
     @Operation(
             summary = "Register user",
             description = "Register user in db, return nothing")
@@ -37,17 +37,29 @@ public class AuthenticationController {
             @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class))}),
             @ApiResponse(responseCode = "401", content = { @Content(schema = @Schema(implementation = ExceptionDetails.class))})
             })
-    @PostMapping("/register")
-    public ResponseEntity<Void> register(
+    @PostMapping("/signup")
+    public ResponseEntity<Void> signUp(
             @RequestBody @Valid RegisterRequest request
     ){
-        authService.register(request);
+        authService.signUp(request);
         return ResponseEntity.ok().build();
     }
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
+
+    @PostMapping("/signin")
+    public ResponseEntity<AuthenticationResponse> signIn(
             @RequestBody AuthenticationRequest request
     ){
-        return ResponseEntity.ok(authService.authenticate(request));
+        return ResponseEntity.ok(authService.signIn(request));
     }
+
+    @GetMapping("/login")
+    public RedirectView googleLogin() {
+        return new RedirectView(loginPage);
+    }
+
+    @GetMapping ("/loginbygoogle")
+    public ResponseEntity<?> loginByGoogle(@RequestParam("code") String code) {
+        return authService.loginByGoogle(code);
+    }
+
 }

@@ -40,7 +40,7 @@ public class InquiriesController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/getInquires")
+    @GetMapping("/getinquires")
     public ResponseEntity<List<InquireResponse>> getAllInquire(){
 
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().

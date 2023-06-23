@@ -11,7 +11,6 @@ import com.example.carsharing.service.CarService;
 import com.example.carsharing.service.ImageService;
 import com.example.carsharing.entity.UserDetailsImpl;
 import com.example.carsharing.service.UserService;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -34,7 +33,7 @@ public class ImageController {
     private final ImageService imageService;
     private final UserService userService;
     private final CarService carService;
-    @PostMapping("/uploadUserImage")
+    @PostMapping("/uploaduserimage")
     public ResponseEntity<?> uploadUserImage(@RequestParam("image") MultipartFile file) throws IOException {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().
                 getAuthentication().getPrincipal();
@@ -49,7 +48,7 @@ public class ImageController {
         UserProfileResponse userProfileResponse =  new UserProfileMapper().mapToUserProfile(user);
         return ResponseEntity.ok(userProfileResponse);
     }
-    @PostMapping("/uploadCarImage")
+    @PostMapping("/uploadcarimage")
     public ResponseEntity<?> uploadCarImage(@RequestParam("image") MultipartFile file,
                                             @RequestParam("id")Long id) throws IOException {
         Pattern pattern = Pattern.compile("\\p{InCyrillic}+");

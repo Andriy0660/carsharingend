@@ -10,17 +10,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
-    @Email(message = "Invalid email address")
-    @NotBlank(message = "Email must be not null")
+    @Email
     private String email;
-    @NotBlank(message = "Password must be not null")
     @Size(min = 6)
     private String password;
-    @NotBlank(message = "Firstname must be not null")
+    @NotBlank
     private String firstName;
-    @NotBlank(message = "Lastname must be not null")
+    @NotBlank
     private String lastName;
-    @Pattern(regexp = "^\\+380\\d{9}$", message = "Invalid phone number")
-    @NotBlank(message = "Phone must be not null")
+    @Pattern(regexp = "^\\+380\\d{9}$")
     private String phone;
 }

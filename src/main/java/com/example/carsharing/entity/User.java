@@ -54,4 +54,6 @@ public class User  {
     private String ImageURL;
     @Column(name = "is_volunteer")
     private boolean isVolunteer;
+    @Column(name = "is_sign_up_by_google")
+    private boolean isSignUpByGoogle;
 }
