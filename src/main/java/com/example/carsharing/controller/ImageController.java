@@ -3,13 +3,12 @@ package com.example.carsharing.controller;
 import com.example.carsharing.dto.response.UserProfileResponse;
 import com.example.carsharing.entity.Car;
 import com.example.carsharing.entity.User;
-
+import com.example.carsharing.entity.UserDetailsImpl;
 import com.example.carsharing.exception.BadRequestException;
 import com.example.carsharing.exception.ServerErrorException;
 import com.example.carsharing.mapper.UserProfileMapper;
 import com.example.carsharing.service.CarService;
 import com.example.carsharing.service.ImageService;
-import com.example.carsharing.entity.UserDetailsImpl;
 import com.example.carsharing.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
