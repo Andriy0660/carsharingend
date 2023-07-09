@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: mysql:latest
+    container_name: mysqldb-compose
+    environment:
+      MYSQL_DATABASE: carsharing
+      MYSQL_ROOT_PASSWORD: bestuser
+      MYSQL_USER: bestuser
+      MYSQL_PASSWORD: bestuser
+    ports: #додаємо можливість звертатись до бази з localhost:3307, а не лише між контейнерами через mysqldb-compose:3306
+    - "3307:3306"
+    volumes: #створюється в директорії carsharingend директорія mysql_data, яка монтується всередину докера,
+    #та відбувається постійна синхронізація цього файлу докер-локальний хост, що дає змогу тримати дані збереженими
+    #після зупинення контейнера
+      - ./mysql_data:/var/lib/mysql
+  app:
+    image: api:compose2
+    container_name: api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    #можемо вказувати або в properties або в compose, пріоритет: properties - 3; compose - 2; cli - 1
+    #    environment:
+    #      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db-compose:3306/carsharing
+    #      SPRING_DATASOURCE_USERNAME: bestuser
+    #      SPRING_DATASOURCE_PASSWORD: bestuser

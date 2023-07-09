@@ -53,7 +53,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/login")
-    public RedirectView googleLogin() {
+    public RedirectView login() {
         return new RedirectView(loginPage);
     }
 

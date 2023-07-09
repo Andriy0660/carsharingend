@@ -45,7 +45,7 @@ public class Car {
     @Column(name = "model")
     String model;
 
-    @Column(name = "year")
+    @Column(name = "car_year")
     Integer year;
 
     @Column(name = "color")

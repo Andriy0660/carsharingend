@@ -49,7 +49,7 @@ public class AuthenticationService {
         if(userService.existsUserByEmail(email)){
             throw new BadRequestException("The email is already used");
         }
-        if(userService.existsByPhone(phone)){
+        if(userService.existsUserByPhone(phone)){
             throw new BadRequestException("The phone is already used" );
         }
 

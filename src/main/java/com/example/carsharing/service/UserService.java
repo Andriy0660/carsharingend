@@ -4,9 +4,8 @@ package com.example.carsharing.service;
 import com.example.carsharing.entity.User;
 import com.example.carsharing.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,17 +13,11 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class UserService {
+    @Autowired
     private UserRepository repository;
-    private PasswordEncoder passwordEncoder;
-    public User findUserByEmail(String email){
-        Optional<User> optionalUser = repository.findByEmail(email);
-        if(optionalUser.isEmpty()){
-            throw new UsernameNotFoundException("User with this email is not found");
-        }
-        return optionalUser.get();
-    }
+
     boolean existsUserByEmail(String email){return repository.existsByEmail(email);}
-    boolean existsByPhone(String phone){return repository.existsByPhone(phone);}
+    boolean existsUserByPhone(String phone){return repository.existsByPhone(phone);}
     public User findUserById(Long id){
         Optional<User> optionalUser = repository.findById(id);
         if(optionalUser.isEmpty()){
@@ -36,5 +29,6 @@ public class UserService {
         repository.save(user);
     }
 
-
+    public UserService() {
+    }
 }

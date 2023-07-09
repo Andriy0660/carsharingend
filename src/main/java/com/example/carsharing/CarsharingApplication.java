@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.example.carsharing.*")
 @EnableScheduling
 @EnableTransactionManagement
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-//@EnableSwagger2
 public class CarsharingApplication {
     public static void main(String[] args) {
         SpringApplication.run(CarsharingApplication.class, args);
